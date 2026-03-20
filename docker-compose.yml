@@ -1,0 +1,74 @@
+version: '3.2'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_CLIENT_PORT}
+    ports:
+      - "2181:2181"
+
+  mongodb:
+    image: mongo:7
+    container_name: scanforge-mongodb
+    ports:
+      - "27017:27017"
+  kafka:
+    depends_on:
+      - zookeeper
+    image: confluentinc/cp-kafka:7.5.0
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+
+  api-service:
+    build: ./api-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+    volumes:
+      - uploads:/app/uploads
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+  scanner-service:
+    build: ./scanner-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kafka
+      - mongodb
+    volumes:
+      - uploads:/app/uploads
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/scanforge
+
+  ai-service:
+    build: ./ai-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - kafka
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+
+  result-service:
+    build: ./result-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - kafka
+      - mongodb
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/scanforge
+
+volumes:
+  uploads:

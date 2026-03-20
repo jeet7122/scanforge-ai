@@ -1,0 +1,13 @@
+com\scanforge\contracts\events\ScanRequestEvent$ScanRequestEventBuilder.class
+com\scanforge\contracts\models\VulnerabilityEnriched.class
+com\scanforge\contracts\models\VulnerabilityDetected$VulnerabilityDetectedBuilder.class
+com\scanforge\Main.class
+com\scanforge\contracts\events\ScanStatusEvent$ScanStatusEventBuilder.class
+com\scanforge\contracts\events\ScanDetectedEvent$ScanDetectedEventBuilder.class
+com\scanforge\contracts\events\ScanEnrichedEvent.class
+com\scanforge\contracts\events\ScanStatusEvent.class
+com\scanforge\contracts\models\VulnerabilityDetected.class
+com\scanforge\contracts\models\VulnerabilityEnriched$VulnerabilityEnrichedBuilder.class
+com\scanforge\contracts\events\ScanDetectedEvent.class
+com\scanforge\contracts\events\ScanRequestEvent.class
+com\scanforge\contracts\events\ScanEnrichedEvent$ScanEnrichedEventBuilder.class
