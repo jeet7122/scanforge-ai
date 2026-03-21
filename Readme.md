@@ -83,7 +83,7 @@ It demonstrates real-world backend engineering concepts including:
 
 ## 📸 Screenshots
 
-> Add screenshots here after deployment
+> Screenshots will be added after deployment
 
 Examples:
 - Upload UI
